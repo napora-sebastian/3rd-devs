@@ -12,6 +12,7 @@
   },
   "scripts": {
     "agent": "bun run agent/app.ts",
+    "word": "bun run word/app.ts",
     "advanced_web_search": "bun advanced_web_search/app.ts",
     "chain": "bun run chain/app.ts",
     "docs": "bun run docs/app.ts",
@@ -25,6 +26,8 @@
     "neo4j-101": "bun run neo4j-101/app.ts",
     "neo4j": "bun neo4j/app.ts",
     "websearch": "bun run websearch/app.ts",
+    "websearch-ollama": "bun run websearch-ollama/app.ts",
+    "websearch-scrapping-with-answering": "bun run websearch-scrapping-with-answering/app.ts",
     "web": "bun run web/app.ts",
     "files": "bun run files/app.ts",
     "tools": "bun run tools/app.ts",
@@ -171,10 +174,19 @@
     "zod": "^3.23.8"
   },
   "trustedDependencies": [
+    "@playwright/browser-chromium",
+    "better-sqlite3",
+    "bufferutil",
+    "canvas",
+    "esbuild",
     "faiss-node",
     "markmap-cli",
     "node-vad",
     "onnxruntime-node",
-    "protobufjs"
+    "pdf2html",
+    "protobufjs",
+    "puppeteer",
+    "sharp",
+    "utf-8-validate"
   ]
 }

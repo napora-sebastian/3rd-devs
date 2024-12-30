@@ -1,0 +1,20 @@
+{
+  "name": "process-word",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "docx4js": "^3.3.0",
+    "mammoth": "^1.8.0",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^4.9.155",
+    "pdfreader": "^3.0.6"
+  }
+}

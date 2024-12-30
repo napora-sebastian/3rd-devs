@@ -5,3 +5,9 @@ evaluation_basics/.env
 node_modules/
 **/*.db
 .vscode/
+
+book.pdf
+word/CharactersList.md
+charactersWithDescription.md
+Readme-gemma.md
+Readme.md
