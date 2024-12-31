@@ -6,6 +6,9 @@ import { WebSearchService } from './WebSearch';
 import { answerPrompt } from './prompts';
 
 import { promises as fs } from 'fs';
+import { assumeNextStep } from './services/assumeNextStep';
+import { sendMessageToXYZ } from './services/xyz';
+import { answerToQuery } from './services/answerToQuery';
 type Role = 'user' | 'assistant' | 'system';
 type Message = Omit<ChatCompletionMessageParam, 'role'> & { role: Role };
 
@@ -18,7 +21,7 @@ interface SearchResult {
 
 
 const allowedDomains = [
-  {name: 'xyz.ag3nts.org', url: 'xyz.ag3nts.org', scrappable: true},
+  { name: 'xyz.ag3nts.org', url: 'xyz.ag3nts.org', scrappable: true },
   // { name: 'Wikipedia', url: 'en.wikipedia.org', scrappable: true },
   // { name: 'easycart', url: 'easycart.pl', scrappable: true },
   // { name: 'FS.blog', url: 'fs.blog', scrappable: true },
@@ -34,58 +37,51 @@ Start Express server
 const app = express();
 const port = 3000;
 app.use(express.json());
-app.listen(port, () => console.log(`Server running at http://localhost:${port}. Listening for POST /api/chat requests`));
+app.listen(port, () => console.log(`Server running at http://localhost:${port}. Listening for POST /api/agent requests`));
 
 const webSearchService = new WebSearchService(allowedDomains);
 const openaiService = new OpenAIService();
 
-app.post('/api/chat', async (req, res) => {
+app.post('/api/agent', async (req, res) => {
   console.log('Received request');
   await fs.writeFile('prompt.md', '');
 
-  
-  const { messages }: { messages: Message[] } = req.body;
-
-
   try {
-    const latestUserMessage = messages.filter(m => m.role === 'user').pop();
-    if (!latestUserMessage) {
-      throw new Error('No user message found');
+    const { text, msgID } = req.body;
+
+    let msgIdStored = msgID
+
+    const nextStep = await assumeNextStep({ text, msgID: msgIdStored });
+
+    console.log('Next step:', nextStep);
+
+    let answer = 'READY';
+    let result = { text: 'READY' };
+
+    if (nextStep === '1') {
+      while (!answer.includes('{{FLG')) {
+        if (answer === 'READY') {
+          const res = await sendMessageToXYZ({ text: answer, msgID: 0 });
+
+          result = res
+          msgIdStored = res.msgID
+        }
+        const answeredQuestion = await answerToQuery({ text: result.text, msgID: msgIdStored });
+        const resultAfterAnswer = await sendMessageToXYZ({ text: answeredQuestion, msgID: msgIdStored });
+        console.log('Result:', { result, answeredQuestion, resultAfterAnswer });
+        answer = resultAfterAnswer.text
+        result = { text: resultAfterAnswer.text }
+      }
     }
 
-    const result = await webSearchService.searchWeb([{url: 'xyz.ag3nts.org'}])
-    // const shouldSearch = await webSearchService.isWebSearchNeeded(latestUserMessage.content as string);
-    let mergedResults: SearchResult[] = []; 
 
-    console.log('Search result:', result);
 
-    // if (shouldSearch) {
-    //   const { queries } = await webSearchService.generateQueries(latestUserMessage.content as string);
-    //   if (queries.length > 0) {
-    //     const searchResults = await webSearchService.searchWeb(queries);
-    //     const filteredResults = await webSearchService.scoreResults(searchResults, latestUserMessage.content as string);
-    //     const urlsToLoad = await webSearchService.selectResourcesToLoad(latestUserMessage.content as string, filteredResults);
-    //     const scrapedContent = await webSearchService.scrapeUrls(urlsToLoad);
-    //     mergedResults = filteredResults.map(result => {
-    //       const scrapedItem = scrapedContent.find(item => item.url === result.url);
-    //       return scrapedItem 
-    //         ? { ...result, content: scrapedItem.content }
-    //         : result;
-    //     });
-    //   }
-    // }
 
-  const scrappedQuestion = `Answer on the question based on you knowledge. Question: ${result}?`
-
-    // const promptWithResults = answerPrompt(mergedResults);
-    const allMessages: ChatCompletionMessageParam[] = [
-      { role: 'system', content: scrappedQuestion, name: 'Alice' },
-      ...messages as ChatCompletionMessageParam[]
-    ];
-    const completion = await openaiService.completion(allMessages, "gpt-4o", false);
-
-    return res.json(completion);
-  } catch (error) {
+    if (result.text.includes('{{FLG')) {
+      res.json(result);
+    }
+  }
+  catch (error) {
     console.error('Error in chat processing:', error);
     res.status(500).json({ error: 'An error occurred while processing your request' });
   }

@@ -1,48 +1,12 @@
-import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'fs';
-import axios from 'axios';
+import { readFileSync } from 'fs';
 import { getDocument } from 'pdfjs-dist';
-import { characterNameExtractor } from '../prompts';
+import { characterNameExtractor } from './prompts-storage/prompts';
+import { sendToOllama } from './services/send-ollama';
+import { extractMessagesFromString } from './utils/extract-messages-from-string';
+import { handleFileContent } from './utils/handle-file-content';
 
 const pdfFilePath = "/Users/sna/Desktop/AI_DEVS_3/3rd-devs/word/book.pdf";
 const readmeListFilePath = "/Users/sna/Desktop/AI_DEVS_3/3rd-devs/word/CharactersList.md";
-
-
-async function sendToOllama(content: string) {
-    const url = "http://127.0.0.1:11434/api/chat";
-    const payload = {
-        model: "gemma2:27b",
-        messages: [
-            { role: "user", content },
-            { role: "assistant", content: characterNameExtractor }
-        ],
-    };
-
-    try {
-        const response = await axios.post(url, payload, {
-            headers: { "Content-Type": "application/json" }
-        });
-
-        if (response.status !== 200) {
-            throw new Error(`Ollama API error: ${response.statusText}`);
-        }
-
-        return response.data;
-    } catch (error: any) {
-        console.error(`Error sending to Ollama: ${error?.message}`);
-    }
-}
-
-function extractMessagesFromString(input: string): string {
-    const regex = /"content":"([^"]*)"/g;
-    const messages = [];
-    let match;
-    while ((match = regex.exec(input)) !== null) {
-        messages.push(match[1]);
-    }
-
-    console.log(messages, '################')
-    return messages.join('');
-}
 
 async function extractTextFromPage(pdfPath: string) {
     const dataBuffer = readFileSync(pdfPath);
@@ -58,33 +22,29 @@ async function extractTextFromPage(pdfPath: string) {
             const page = await pdf.getPage(numPage);
             const textContent = await page.getTextContent();
             const pageText = textContent.items.map((item: any) => item?.str).join(' ');
-            const result = await sendToOllama(JSON.stringify(pageText));
+            const result = await sendToOllama({ content: JSON.stringify(pageText), assitantMessage: characterNameExtractor });
 
             return { text: result, pageNumber: numPage };
         });
 
-   return mappedPromises
+    return mappedPromises
 }
 
 // Usage
 export const extractCharactersList = () => {
     extractTextFromPage(pdfFilePath).then(async (results) => {
-        for(const promise of  results) {
-            const {text, pageNumber} = await promise;
+        for (const promise of results) {
+            const { text, pageNumber } = await promise;
             const messagesArray = extractMessagesFromString(text);
-    
+
             const messageContent = `\n\n Page: ${pageNumber}
                 ######## CONTENT ########
                 ${messagesArray}`
-    
-            if (!existsSync(readmeListFilePath)) {
-                writeFileSync(readmeListFilePath, messageContent);
-            } else {
-                appendFileSync(readmeListFilePath, messageContent);
-            }
+
+            handleFileContent(readmeListFilePath, messageContent);
         }
 
-}).catch(err => {
-    console.error('Error extracting text:', err);
-});
+    }).catch(err => {
+        console.error('Error extracting text:', err);
+    });
 }

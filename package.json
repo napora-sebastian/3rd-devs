@@ -28,6 +28,7 @@
     "websearch": "bun run websearch/app.ts",
     "websearch-ollama": "bun run websearch-ollama/app.ts",
     "websearch-scrapping-with-answering": "bun run websearch-scrapping-with-answering/app.ts",
+    "w-agent-answering": "bun run w-agent-answering/app.ts",
     "web": "bun run web/app.ts",
     "files": "bun run files/app.ts",
     "tools": "bun run tools/app.ts",
