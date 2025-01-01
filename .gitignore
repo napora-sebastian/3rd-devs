@@ -11,3 +11,7 @@ word/CharactersList.md
 charactersWithDescription.md
 Readme-gemma.md
 Readme.md
+
+**/markdowns/**/*.md
+**/pdfs/**/*.pdf
+test-data.pdf

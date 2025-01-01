@@ -74,11 +74,15 @@ app.post('/api/agent', async (req, res) => {
       }
     }
 
-
-
-
     if (result.text.includes('{{FLG')) {
+      msgIdStored = 0
       res.json(result);
+      result.text = 'READY'
+      answer = 'READY'
+    }
+
+    if(nextStep === '0') {
+      res.json('Try again');
     }
   }
   catch (error) {
