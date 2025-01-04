@@ -5,5 +5,6 @@ export function extractMessagesFromString(input: string): string {
     while ((match = regex.exec(input)) !== null) {
         messages.push(match[1]);
     }
+
     return messages.join('');
 }

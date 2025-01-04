@@ -22,9 +22,6 @@ async function extractTextFromPage(pdfPath: string) {
             const page = await pdf.getPage(numPage);
             const textContent = await page.getTextContent();
 
-            //Convert pdf to markdown but for each page septate file
-            await convertPdfToMarkdown(pdfPath);
-
             const pageText = textContent.items.map((item: any) => item?.str).join(' ');
             const result = await sendToOllama({ content: JSON.stringify(pageText), assitantMessage: characterDescription });
 
