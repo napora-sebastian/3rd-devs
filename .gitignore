@@ -14,4 +14,11 @@ Readme.md
 
 **/markdowns/**/*.md
 **/pdfs/**/*.pdf
+**/moc-markdowns/*.md
 test-data.pdf
+links-tags.json
+**/test-data-jsons/*.json
+MOCCC.pdf
+result.json
+test-data.json
+test.json

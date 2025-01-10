@@ -10,32 +10,42 @@ interface TestItem {
   };
 }
 
-function convertJsonToMarkdownContent(jsonData: TestItem[]): string {
+function convertJsonToMarkdownContent(jsonData: TestItem[], indexes: number): string {
+console.log('indexes', indexes);
   let markdown = '';
+
+  const newJsonData = jsonData.map((item, indexs) => {
+    const array = [...new Array(indexes).keys()].map(num => num + indexes); // Adjust the range if necessary
+    return {
+        ...item,
+        newIndex: array[indexs], // Get the last value of the array
+    };
+  })
   
-  jsonData.forEach((item, index) => {
+  newJsonData.forEach((item) => {
+
     if (item.question) {
-      markdown += `### test-data[${index}].question\n${item.question}\n`;
+      markdown += `### test-data[${item.newIndex}].question\n${item.question}\n`;
     }
     if (item.answer !== undefined) {
-      markdown += `### test-data[${index}].answer\n${item.answer}\n`;
+      markdown += `### test-data[${item.newIndex}].answer\n${item.answer}\n`;
     }
     if (item.test) {
-      markdown += `## test-data[${index}].test\n`;
-      markdown += `### test-data[${index}].test.q\n${item.test.q}\n`;
-      markdown += `### test-data[${index}].test.a\n${item.test.a}\n`;
+      markdown += `## test-data[${item.newIndex}].test\n`;
+      markdown += `### test-data[${item.newIndex}].test.q\n${item.test.q}\n`;
+      markdown += `### test-data[${item.newIndex}].test.a\n${item.test.a}\n`;
     }
   });
   
   return markdown;
 }
 
-export async function convertJsonToMarkdown(path: string, fileName: string): Promise<void> {
+export async function convertJsonToMarkdown(path: string, fileName: string, indexes: number): Promise<void> {
   try {
     const jsonContent = readFileSync(path, 'utf-8');
     const jsonData: TestItem[] = JSON.parse(jsonContent);
     
-    const markdownContent = convertJsonToMarkdownContent(jsonData);
+    const markdownContent = convertJsonToMarkdownContent(jsonData, indexes);
     const mdFileName = fileName.endsWith('.md') ? fileName : `${fileName}.md`;
     
     const outputDir = resolve(__dirname, '../test-data-markdowns');

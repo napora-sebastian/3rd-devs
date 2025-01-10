@@ -13,7 +13,7 @@ const promptPath = "./word/src/prompts-storage/find-mistakes-same-output.md";
 
 async function processMarkdownFiles() {
     const prompt = readFileSync(promptPath, 'utf-8');
-    
+
     try {
         writeFileSync(readmeFilePath, '', 'utf-8');
         const files = readdirSync(markdownDir)
@@ -39,6 +39,8 @@ async function processMarkdownFiles() {
                 content: content,
                 assitantMessage: prompt
             });
+
+        //    const result = await  new OpenAIService().completion({messages: [{role: 'user', content}, {role: 'system', content: prompt}]});
 
             const messagesArray = extractMessagesFromString(result);
             appendFileSync(readmeFilePath, messagesArray);

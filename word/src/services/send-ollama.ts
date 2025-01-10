@@ -9,15 +9,15 @@ export async function sendToOllama({
 }): Promise<any> {
     const url = "http://127.0.0.1:11434/api/chat";
     const payload = {
-        model: "gemma2:27b",
+        model: "phi4",
         messages: [
             { role: "system", content: assitantMessage },
             { role: "user", content },
             // Optionally include the assistant role if needed
-            // { role: "assistant", content: "previous assistant message" }
+            // { role: "assistant", content: assitantMessage }
         ],
         // Set the response format to JSON
-        response_format: { type: "json_object" },
+        // response_format: { type: "json_object" },
     };
 
     try {

@@ -22,7 +22,7 @@ export function splitJson(inputPath: string, outputPath: string): void {
     const jsonArray: {'test-data': JsonItem[]} = JSON.parse(rawContent);
 
     // Define chunk size
-    const CHUNK_SIZE = 100;
+    const CHUNK_SIZE = 30;
 
     // Split into chunks
     for (let i = 0; i < jsonArray['test-data'].length; i += CHUNK_SIZE) {
