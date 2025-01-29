@@ -36,7 +36,7 @@ export class AssistantService {
       }, trace: LangfuseTraceClient) {
         const { messages, context,...restConfig } = config;
 
-        const prompt = await this.langfuseService.getPrompt('Answer', 1);
+        const prompt = await this.langfuseService.getPrompt('Answer', 3);
         const [systemMessage] = prompt.compile({ context });
         const thread = [systemMessage, ...messages.filter(msg => msg.role !== 'system')];
 
@@ -45,7 +45,7 @@ export class AssistantService {
         try {
             const completion = await this.openaiService.completion({
                 ...restConfig,
-                messages: thread as ChatCompletionMessageParam[]
+                messages: messages as ChatCompletionMessageParam[]
             }) as ChatCompletion;
 
             this.langfuseService.finalizeGeneration(generation, completion.choices[0].message, completion.model, {

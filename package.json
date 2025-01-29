@@ -11,6 +11,7 @@
     "tsx": "^4.19.1"
   },
   "scripts": {
+    "censor": "bun run censor/app.ts",
     "agent": "bun run agent/app.ts",
     "word": "bun run word/app.ts",
     "advanced_web_search": "bun advanced_web_search/app.ts",

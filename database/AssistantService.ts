@@ -57,7 +57,7 @@ export class AssistantService {
         try {
             const completion = await this.openaiService.completion({
                 ...restConfig,
-                messages: thread as ChatCompletionMessageParam[]
+                messages: messages as ChatCompletionMessageParam[]
             }) as ChatCompletion;
 
             const answer = completion.choices[0].message.content || 'No response';

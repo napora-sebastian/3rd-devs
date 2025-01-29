@@ -44,7 +44,7 @@ export class AssistantService {
         try {
             const completion = await this.openaiService.completion({
                 ...restConfig,
-                messages: thread as ChatCompletionMessageParam[]
+                messages: messages as ChatCompletionMessageParam[]
             }) as ChatCompletion;
 
             this.langfuseService.finalizeGeneration(generation, completion.choices[0].message, completion.model, {
