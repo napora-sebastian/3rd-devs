@@ -78,8 +78,7 @@ async function resendAnswer(answer: string) {
             apikey:process.env.AI_DEVS_KEY,
             answer: answer
         })
-        
-        
+
         return response.data;
     } catch (error: any) {
         console.error(`Error sending to Ollama: ${error?.message}`);
