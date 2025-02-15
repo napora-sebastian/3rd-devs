@@ -1,0 +1,12 @@
+REPAIR NOTE
+FROM: Repair debarhwent
+Godzina 08:15. Rozpoczęto naprawę anteny
+nadawczej w sektorze komunikacyjnym. Uszkodzenie
+powstało wskutek długotrwałej ekspozycji na
+warunki atmosferyczne, co osłabiło sygnał
+przesyłowy. Wymieniono główny element
+przekaźnika oraz dokręcono panel stabilizacyjny.
+Test przesyłu sygnału zakończony pozytywnie.
+Antena działa zgodnie ze specyfikacją.
+
+APPROVED BY Josebh N.
