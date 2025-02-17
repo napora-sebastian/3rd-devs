@@ -1,0 +1,1 @@
+"```json\n{\n    \"nazwa-pliku-01.txt\": \"bezpieczeństwo, sektor, fabryka, monitoring, magazyn, przekształcenie, ochrona, alarm, systemy, nieautoryzowany dostęp\"\n}\n```"

@@ -1,0 +1,1 @@
+"{\n    \"raport-bezpieczenstwo-01.txt\": \"monitoring, patrol, magazyn, bezpieczeństwo, nieautoryzowany dostęp, alarm, systemy bezpieczeństwa, Adam Gospodarczyk, Azazel, hackowanie, ruch oporu, sektor C, testy broni, sektor B, ogniwa bateryjne, eksperyment, sektor A, montaż robotów, sztuczna inteligencja, Rafał Bomba, Barbara Zawadzka, Aleksander Ragowski\"\n}"

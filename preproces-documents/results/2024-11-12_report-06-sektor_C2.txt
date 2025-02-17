@@ -1,0 +1,1 @@
+"{\n    \"raport.txt\": \"bezpieczeństwo, sektor, fabryka, magazyn, monitoring, alarm, ruch oporu, technologia, broń, test, eksplozja, ogniwo, energia, robot, montaż, sztuczna inteligencja, sabotowanie, reżim, szkolenie, hackowanie, teleportacja, podróż w czasie, manipulacja umysłem, automatyzacja, opór, pieczenie pizzy, komunikacja, programowanie\"\n}"

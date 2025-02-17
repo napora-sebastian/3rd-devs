@@ -12,6 +12,9 @@
     "tsx": "^4.19.1"
   },
   "scripts": {
+    "preproces-documents": "bun run preproces-documents/app.ts",
+    "answer-questions": "bun run answer-questions/app.ts",
+    "audio-map-frontend": "bun run audio-map-frontend/src/app.ts",
     "categorize-informations-from-files": "bun run categorize-informations-from-files/app.ts",
     "img-generation": "bun run img-generation/app.ts",
     "find-street-audios": "bun run find-street-audios/app.ts",
@@ -109,6 +112,7 @@
     "algoliasearch": "5.7.0",
     "audio-decode": "^2.2.2",
     "audiobuffer-to-wav": "^1.0.0",
+    "axios": "^1.7.9",
     "better-sqlite3": "11.3.0",
     "canvas": "^2.11.2",
     "chalk": "^5.3.0",
@@ -132,6 +136,8 @@
     "groq-sdk": "^0.7.0",
     "http-server": "^14.1.1",
     "js-yaml": "^4.1.0",
+    "langfuse": "^3.35.2",
+    "langfuse-core": "^3.35.2",
     "libreoffice-convert": "^1.6.0",
     "lodash": "^4.17.21",
     "mammoth": "^1.8.0",

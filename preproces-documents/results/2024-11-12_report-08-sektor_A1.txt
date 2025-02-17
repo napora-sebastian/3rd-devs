@@ -1,0 +1,1 @@
+"{\n    \"raport-wydarzenia-bezpieczenstwa.txt\": \"monitoring, sektor, magazyn, bezpieczeństwo, system, alarm, produkcja, laboratorium, broń, test, eksperyment, technologia, sztuczna inteligencja, ruch oporu, hackowanie, reżim, sabotaż, szkolenie, agent, teleportacja, energia, bateria, robot, automatyzacja\"\n}"

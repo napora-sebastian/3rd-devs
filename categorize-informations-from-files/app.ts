@@ -91,9 +91,9 @@ async function processFiles(directory: string): Promise<CategoryResult> {
         
         let content = '';
         //if you need to read the file content per type!
-        // if (ext === '.txt') content = await readTextFile(filePath);
-        //  if (ext === '.png') content = await readImageFile(filePath);
-        //  if (ext === '.mp3') content = await readAudioFile(filePath);
+        if (ext === '.txt') content = await readTextFile(filePath);
+         if (ext === '.png') content = await readImageFile(filePath);
+         if (ext === '.mp3') content = await readAudioFile(filePath);
 
         if (content) {
             const category = await classifyContent(content);

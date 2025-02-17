@@ -1,0 +1,1 @@
+"{\n    \"raport.txt\": \"alarm, zwierzyna, bezpieczeństwo, sektor, magazyn, monitoring, ruch oporu, programowanie, hackowanie, broń, eksplozja, test, ochrona, komora, ogniwo, bateria, montaż, robot, technologia, sztuczna inteligencja, teleportacja, manipulacja, opór, automatyzacja, samoobrona\"\n}"

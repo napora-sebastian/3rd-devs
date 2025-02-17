@@ -18,7 +18,9 @@ export class OpenAIService {
   private groq: Groq;
 
   constructor() {
-    this.openai = new OpenAI();
+    this.openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    });
     this.elevenlabs = new ElevenLabsClient({
       apiKey: process.env.ELEVENLABS_API_KEY
     });
@@ -67,8 +69,8 @@ export class OpenAIService {
         messages,
         model,
       });
-      
-        return chatCompletion as OpenAI.Chat.Completions.ChatCompletion;
+
+      return chatCompletion as OpenAI.Chat.Completions.ChatCompletion;
     } catch (error) {
       console.error("Error in OpenAI completion:", error);
       throw error;
@@ -112,7 +114,7 @@ export class OpenAIService {
       voice: 'alloy',
       input: text,
     });
-  
+
     console.log("Response:", response.body);
     const stream = response.body;
     return stream;
@@ -120,13 +122,21 @@ export class OpenAIService {
 
   async transcribe(audioBuffer: Buffer): Promise<string> {
     console.log("Transcribing audio...");
-    
-    const transcription = await this.openai.audio.transcriptions.create({
-      file: await toFile(audioBuffer, 'speech.mp3'),
-      language: 'pl',
-      model: 'whisper-1',
-  });
-    return transcription.text;
+
+    try {
+
+      const transcription = await this.openai.audio.transcriptions.create({
+        file: await toFile(audioBuffer, 'speech.mp3'),
+        language: 'pl',
+        model: 'whisper-1',
+      });
+      return transcription.text;
+
+    } catch (error) {
+      console.error("Error transcribing audio:", error);
+      throw error;
+    }
+
   }
 
 
